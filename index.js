@@ -3,6 +3,11 @@ const app = express()
 
 let contacts = require('./sampleData')[0].contacts
 
+const contactAlreadyExists = (name) => {
+  const match = contacts.filter((c) => c.name.toLowerCase() === name.toLowerCase())
+  return match.length > 0 ? true : false
+}
+
 app.use(express.json())
 
 app.get('/', (_, res) => {
@@ -32,6 +37,8 @@ app.post('/api/contacts', (req, res) => {
   const body = req.body
 
   if (!body.name || !body.number) return res.status(400).json({ error: 'Missing Name or Number' })
+  else if (contactAlreadyExists(body.name))
+    return res.status(400).json({ error: `${body.name} Already Exists` })
 
   const contact = {
     name: body.name,
@@ -41,7 +48,7 @@ app.post('/api/contacts', (req, res) => {
 
   contacts = contacts.concat(contact)
 
-  return res.json(contact)
+  res.json(contact)
 })
 
 app.delete('/api/contacts/:id', (req, res) => {
