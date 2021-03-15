@@ -28,6 +28,22 @@ app.get('/api/contacts/:id', (req, res) => {
   else res.status(404).end()
 })
 
+app.post('/api/contacts', (req, res) => {
+  const body = req.body
+
+  if (!body.name || !body.number) return res.status(400).json({ error: 'Missing Name or Number' })
+
+  const contact = {
+    name: body.name,
+    number: body.number,
+    id: Math.floor(Math.random() * 999 + 1)
+  }
+
+  contacts = contacts.concat(contact)
+
+  return res.json(contact)
+})
+
 app.delete('/api/contacts/:id', (req, res) => {
   const id = Number(req.params.id)
 
