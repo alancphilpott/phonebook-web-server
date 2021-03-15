@@ -17,4 +17,14 @@ app.get('/api/contacts', (_, res) => {
   res.json(contacts)
 })
 
+app.get('/api/contacts/:id', (req, res) => {
+  const id = Number(req.params.id)
+
+  const contact = contacts.find((c) => c.id === id)
+  console.log(contact)
+
+  if (contact) return res.json(contact)
+  else res.status(404).end()
+})
+
 app.listen(3001, () => console.log(`Server Listening on Port 3001`))
