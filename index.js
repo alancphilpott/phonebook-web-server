@@ -8,7 +8,12 @@ app.get('/', (_, res) => {
   res.send('<h1>Hello World</h1>')
 })
 
-app.get('/api/contacts', (req, res) => {
+app.get('/info', (_, res) => {
+  const markup = `<p>Phonebook has info for ${contacts.length} people</p><p>${new Date()}</p>`
+  res.send(markup)
+})
+
+app.get('/api/contacts', (_, res) => {
   res.json(contacts)
 })
 
