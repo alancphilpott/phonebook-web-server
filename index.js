@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
-const contacts = require('./sampleData')[0].contacts
+
+let contacts = require('./sampleData')[0].contacts
 
 app.use(express.json())
 
@@ -25,6 +26,14 @@ app.get('/api/contacts/:id', (req, res) => {
 
   if (contact) return res.json(contact)
   else res.status(404).end()
+})
+
+app.delete('/api/contacts/:id', (req, res) => {
+  const id = Number(req.params.id)
+
+  contacts = contacts.filter((c) => c.id !== id)
+
+  res.send(204).end()
 })
 
 app.listen(3001, () => console.log(`Server Listening on Port 3001`))

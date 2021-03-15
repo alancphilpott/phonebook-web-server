@@ -1,4 +1,4 @@
-const contacts = [
+let contacts = [
   {
     contacts: [
       {
