@@ -1,4 +1,5 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 let contacts = require('./sampleData')[0].contacts
@@ -8,6 +9,7 @@ const contactAlreadyExists = (name) => {
   return match.length > 0 ? true : false
 }
 
+app.use(morgan('tiny'))
 app.use(express.json())
 
 app.get('/', (_, res) => {
