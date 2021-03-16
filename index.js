@@ -9,8 +9,13 @@ const contactAlreadyExists = (name) => {
   return match.length > 0 ? true : false
 }
 
-app.use(morgan('tiny'))
+morgan.token("data", (req, _) => {
+  return JSON.stringify(req.body)
+})
+
 app.use(express.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
+
 
 app.get('/', (_, res) => {
   res.send('<h1>Hello World</h1>')
