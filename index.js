@@ -61,4 +61,5 @@ app.delete('/api/contacts/:id', (req, res) => {
   res.send(204).end()
 })
 
-app.listen(3001, () => console.log(`Server Listening on Port 3001`))
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => console.log(`Server Listening on Port ${PORT}`))
