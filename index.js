@@ -1,5 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
 
 let contacts = require('./sampleData')[0].contacts
@@ -15,6 +16,7 @@ morgan.token('data', (req, _) => {
 
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
+app.use(cors())
 
 app.get('/info', (_, res) => {
   const markup = `<p>Phonebook has info for ${contacts.length} people</p><p>${new Date()}</p>`

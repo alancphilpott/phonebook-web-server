@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "build:ui":"rm -rf build && cd ../phonebook-client && npm run build --prod && cp -r build ../phonebook-web-server",
+    "build:ui": "rm -rf build && cd ../phonebook-client && npm run build --prod && cp -r build ../phonebook-web-server",
     "deploy": "git push heroku",
     "deploy:full": "npm run build:ui && git add . && git commit -m buildui && git push && npm run deploy",
     "logs:prod": "heroku logs --tail"
@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "morgan": "^1.10.0"
   },
