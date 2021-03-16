@@ -61,7 +61,7 @@ app.delete('/api/contacts/:id', (req, res) => {
 
   contacts = contacts.filter((c) => c.id !== id)
 
-  res.send(204).end()
+  res.status(204).end()
 })
 
 const PORT = process.env.PORT || 3001
