@@ -37,9 +37,8 @@ if (args[3] && args[4]) {
   })
 } else {
   Contact.find({}).then((contacts) => {
-    contacts.forEach((contact) => {
-      console.log(contact)
-    })
+    console.log('phonebook:')
+    contacts.forEach((contact) => console.log(contact.name, contact.number))
     mongoose.connection.close()
   })
 }
