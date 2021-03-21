@@ -49,11 +49,9 @@ app.post('/api/contacts', (req, res) => {
 })
 
 app.delete('/api/contacts/:id', (req, res) => {
-  const id = Number(req.params.id)
-
-  contacts = contacts.filter((c) => c.id !== id)
-
-  res.status(204).end()
+  Contact.findByIdAndDelete(req.params.id)
+    .then((_) => res.status(204).end())
+    .catch((err) => console.log('Error Occured: ', err))
 })
 
 const PORT = process.env.PORT || 3001
