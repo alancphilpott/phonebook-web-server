@@ -1,15 +1,8 @@
+require('dotenv').config()
 const mongoose = require('mongoose')
 
 const args = process.argv
-
-if (args.length < 3) {
-  console.log('Provide a PW as an argument: node mongo.js <password>')
-  process.exit(1)
-}
-
-const password = args[2]
-
-const url = `mongodb+srv://alanphil:${password}@castify.000od.mongodb.net/phonebook-app?retryWrites=true&w=majority`
+const url = process.env.MONGODB_URI
 
 mongoose.connect(url, {
   useNewUrlParser: true,
@@ -25,11 +18,11 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = new mongoose.model('Contact', contactSchema)
 
-if (args[3] && args[4]) {
-  const contact = new Contact({
-    name: args[3],
-    number: args[4]
-  })
+if (args[2] && args[3]) {
+  const name = args[2]
+  const number = args[3]
+
+  const contact = new Contact({ name, number })
 
   contact.save().then((result) => {
     console.log(`Added ${result.name} Number ${result.number} To Phonebook`)
