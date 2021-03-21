@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const app = express()
 
+const Contact = require('./models/contact')
 let contacts = require('./sampleData')[0].contacts
 
 const contactAlreadyExists = (name) => {
@@ -25,17 +26,14 @@ app.get('/info', (_, res) => {
 })
 
 app.get('/api/contacts', (_, res) => {
-  res.json(contacts)
+  Contact.find({}).then((contacts) => res.json(contacts))
 })
 
 app.get('/api/contacts/:id', (req, res) => {
-  const id = Number(req.params.id)
-
-  const contact = contacts.find((c) => c.id === id)
-  console.log(contact)
-
-  if (contact) return res.json(contact)
-  else res.status(404).end()
+  Contact.findById(req.params.id).then((contact) => {
+    if (contact) return res.json(contact)
+    else res.status(404).end()
+  })
 })
 
 app.post('/api/contacts', (req, res) => {
