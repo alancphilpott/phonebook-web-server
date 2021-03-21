@@ -4,12 +4,6 @@ const cors = require('cors')
 const app = express()
 
 const Contact = require('./models/contact')
-let contacts = require('./sampleData')[0].contacts
-
-const contactAlreadyExists = (name) => {
-  const match = contacts.filter((c) => c.name.toLowerCase() === name.toLowerCase())
-  return match.length > 0 ? true : false
-}
 
 morgan.token('data', (req, _) => {
   return JSON.stringify(req.body)
@@ -21,8 +15,10 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :d
 app.use(cors())
 
 app.get('/info', (_, res) => {
-  const markup = `<p>Phonebook has info for ${contacts.length} people</p><p>${new Date()}</p>`
-  res.send(markup)
+  Contact.find({}).then((contacts) => {
+    const markup = `<p>Phonebook has info for ${contacts.length} people</p><p>${new Date()}</p>`
+    res.send(markup)
+  })
 })
 
 app.get('/api/contacts', (_, res) => {
