@@ -30,28 +30,26 @@ app.get('/api/contacts', (_, res) => {
 })
 
 app.get('/api/contacts/:id', (req, res) => {
-  Contact.findById(req.params.id).then((contact) => {
-    if (contact) return res.json(contact)
-    else res.status(404).end()
-  })
+  Contact.findById(req.params.id)
+    .then((contact) => {
+      if (contact) return res.json(contact)
+      else res.status(404).end()
+    })
+    .catch((err) => {
+      res.status(500).end()
+      console.log('Malformed Request Details: ', err)
+    })
 })
 
 app.post('/api/contacts', (req, res) => {
-  const body = req.body
+  const name = req.body.name
+  const number = req.body.number
 
-  if (!body.name || !body.number) return res.status(400).json({ error: 'Missing Name or Number' })
-  else if (contactAlreadyExists(body.name))
-    return res.status(400).json({ error: `${body.name} Already Exists` })
+  if (!name || !number) return res.status(400).json({ error: 'Missing Name or Number' })
 
-  const contact = {
-    name: body.name,
-    number: body.number,
-    id: Math.floor(Math.random() * 999 + 1)
-  }
+  const contact = new Contact({ name, number })
 
-  contacts = contacts.concat(contact)
-
-  res.json(contact)
+  contact.save().then((savedContact) => res.json(savedContact))
 })
 
 app.delete('/api/contacts/:id', (req, res) => {
