@@ -10,7 +10,7 @@ mongoose
     useFindAndModify: false,
     useCreateIndex: true
   })
-  .then((res) => console.log('Connected To MongoDB'))
+  .then(() => console.log('Connected To MongoDB'))
   .catch((error) => console.log('Error Connecting To MongoDB', error))
 
 const contactSchema = new mongoose.Schema({

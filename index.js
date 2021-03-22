@@ -5,7 +5,7 @@ const app = express()
 
 const Contact = require('./models/contact')
 
-morgan.token('data', (req, _) => {
+morgan.token('data', (req) => {
   return JSON.stringify(req.body)
 })
 
@@ -69,7 +69,7 @@ app.put('/api/contacts/:id', (req, res, next) => {
 
 app.delete('/api/contacts/:id', (req, res, next) => {
   Contact.findByIdAndDelete(req.params.id)
-    .then((_) => res.status(204).end())
+    .then(() => res.status(204).end())
     .catch((err) => next(err))
 })
 
