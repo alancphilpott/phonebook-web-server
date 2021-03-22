@@ -10,9 +10,10 @@ morgan.token('data', (req, _) => {
 })
 
 const errorHandler = (error, req, res, next) => {
-  console.log(req)
+  if (error.name === 'CastError') res.status(400).send({ error: 'Malformed ID' })
+  else if (error.name === 'ValidationError') res.status(400).json({ error: error.message })
 
-  error.name === 'CastError' ? res.status(400).send({ error: 'Malformed ID' }) : next()
+  next()
 }
 
 app.use(express.json())
@@ -40,7 +41,7 @@ app.get('/api/contacts/:id', (req, res, next) => {
     .catch((err) => next(err))
 })
 
-app.post('/api/contacts', (req, res) => {
+app.post('/api/contacts', (req, res, next) => {
   const name = req.body.name
   const number = req.body.number
 
@@ -48,7 +49,10 @@ app.post('/api/contacts', (req, res) => {
 
   const newContact = new Contact({ name, number })
 
-  newContact.save().then((savedContact) => res.json(savedContact))
+  newContact
+    .save()
+    .then((savedContact) => res.json(savedContact))
+    .catch((err) => next(err))
 })
 
 app.put('/api/contacts/:id', (req, res, next) => {
