@@ -23,7 +23,7 @@ const contactSchema = new mongoose.Schema({
   number: {
     type: String,
     required: true,
-    minlength: 5
+    minlength: 8
   }
 })
 
