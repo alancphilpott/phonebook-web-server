@@ -56,12 +56,13 @@ app.post('/api/contacts', (req, res, next) => {
 })
 
 app.put('/api/contacts/:id', (req, res, next) => {
+  const id = req.params.id
   const name = req.body.name
   const number = req.body.number
 
-  const contact = { name, number }
+  const contact = { id, name, number }
 
-  Contact.findByIdAndUpdate(req.params.id, contact, { new: true, runValidators: true })
+  Contact.findByIdAndUpdate(id, contact, { new: true, runValidators: true, context: 'query' })
     .then((updatedContact) => res.json(updatedContact))
     .catch((err) => next(err))
 })
